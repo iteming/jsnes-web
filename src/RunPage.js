@@ -9,12 +9,26 @@ import RomLibrary from "./RomLibrary";
 import {loadBinary} from "./utils";
 
 import "./RunPage.css";
+import JoyStick from "./JoyStick";
+
+const joyOptions = {
+    mode: 'semi',
+    catchDistance: 60,
+    color: 'white'
+};
+
+const containerStyle = {
+    position: 'absolute',
+    height: '100%',
+    width: '50%',
+};
 
 /*
  * The UI for the emulator. Also responsible for loading ROM from URL or file.
  */
 class RunPage extends Component {
     constructor(props) {
+        console.log("IN RunPage", props);
         super(props);
         this.state = {
             romName: null,
@@ -26,6 +40,35 @@ class RunPage extends Component {
             loadedPercent: 3,
             error: null
         };
+    }
+
+    managerListener(manager) {
+        manager.on('move', (e, stick) => {
+            console.log('I moved! ', e, stick);
+            // 当摇杆发生便宜产生上下左右参数，且摇杆距离中心点的距离超过15（满值50）
+            if (stick.direction !== undefined && stick.distance > 15) {
+                if (55 > stick.angle.degree && stick.angle.degree > 35) {
+                    console.log('I moved! up - right');
+                } else if (145 > stick.angle.degree && stick.angle.degree > 125) {
+                    console.log('I moved! up - left');
+                } else if (235 > stick.angle.degree && stick.angle.degree > 215) {
+                    console.log('I moved! down - left');
+                } else if (325 > stick.angle.degree && stick.angle.degree > 305) {
+                    console.log('I moved! down - right');
+                } else if (stick.direction.angle === 'up') {
+                    console.log('I moved! ', stick.direction.angle);
+                } else if (stick.direction.angle === 'down') {
+                    console.log('I moved! ', stick.direction.angle);
+                } else if (stick.direction.angle === 'left') {
+                    console.log('I moved! ', stick.direction.angle);
+                } else if (stick.direction.angle === 'right') {
+                    console.log('I moved! ', stick.direction.angle);
+                }
+            }
+        });
+        manager.on('end', () => {
+            // console.log('I ended!')
+        })
     }
 
     render() {
@@ -71,6 +114,10 @@ class RunPage extends Component {
                         </li>
                     </ul>
                 </nav>
+
+                <div>
+                    <JoyStick options={joyOptions} containerStyle={containerStyle} managerListener={this.managerListener}/>
+                </div>
 
                 {this.state.error ? ( this.state.error ) : (
                     <div

@@ -41,10 +41,11 @@ class JoyStick extends Component {
 //     dynamicPage: Boolean,           // Enable if the page has dynamically visible elements
 //     follow: Boolean,                // Makes the joystick follow the thumbstick
 // };
+
 JoyStick.defaultProps = {
     options: {
         mode: 'semi',
-        catchDistance: 150,
+        catchDistance: 110,
         color: 'white',
     },
     containerStyle: {

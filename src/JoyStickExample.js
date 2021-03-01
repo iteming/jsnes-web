@@ -1,6 +1,20 @@
 import JoyStick from "./JoyStick";
 import React, {Component} from "react";
 
+const joyOptions = {
+    mode: 'semi',
+    catchDistance: 110,
+    color: 'white'
+};
+
+const containerStyle = {
+    position: 'relative',
+    height: '350px',
+    width: '100%',
+    background: 'linear-gradient(to right, #E684AE, #79CBCA, #77A1D3)'
+};
+
+
 class JoyPage extends Component {
     constructor() {
         super();
@@ -62,7 +76,7 @@ class JoyPage extends Component {
         // const { classes } = this.props;
         return (
             <div>
-                <JoyStick managerListener={this.managerListener}/>
+                <JoyStick options={joyOptions} containerStyle={containerStyle} managerListener={this.managerListener}/>
             </div>
         )
     }

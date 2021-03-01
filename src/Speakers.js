@@ -43,7 +43,8 @@ export default class Speakers {
 
   writeSample = (left, right) => {
     if (this.buffer.size() / 2 >= this.bufferSize) {
-      console.log(`Buffer overrun`);
+      // TODO: 注释掉
+      // console.log(`Buffer overrun`);
       this.buffer.deqN(this.bufferSize / 2);
     }
     this.buffer.enq(left);
