@@ -10,6 +10,7 @@ class JoyStick extends Component {
 
     componentDidMount() {
         this.manager = nipplejs.create({ ...this.props.options, zone: this.joyRef.current });
+        console.log("componentDidMount ", this.manager);
         this.props.managerListener(this.manager);
     }
 
@@ -19,7 +20,27 @@ class JoyStick extends Component {
         );
     }
 }
-
+// var options = {
+//     zone: Element,                  // active zone
+//     color: String,
+//     size: Integer,
+//     threshold: Float,               // before triggering a directional event
+//     fadeTime: Integer,              // transition time
+//     multitouch: Boolean,
+//     maxNumberOfNipples: Number,     // when multitouch, what is too many?
+//     dataOnly: Boolean,              // no dom element whatsoever
+//     position: Object,               // preset position for 'static' mode
+//     mode: String,                   // 'dynamic', 'static' or 'semi'
+//     restJoystick: Boolean,
+//     restOpacity: Number,            // opacity when not 'dynamic' and rested
+//     lockX: Boolean,                 // only move on the X axis
+//     lockY: Boolean,                 // only move on the Y axis
+//     catchDistance: Number,          // distance to recycle previous joystick in
+//                                     // 'semi' mode
+//     shape: String,                  // 'circle' or 'square'
+//     dynamicPage: Boolean,           // Enable if the page has dynamically visible elements
+//     follow: Boolean,                // Makes the joystick follow the thumbstick
+// };
 JoyStick.defaultProps = {
     options: {
         mode: 'semi',
