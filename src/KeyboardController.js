@@ -53,6 +53,7 @@ export default class KeyboardController {
   handleKeyDown = e => {
     var key = this.keys[e.keyCode];
     if (key) {
+      // console.log("点击落");
       this.onButtonDown(key[0], key[1]);
       e.preventDefault();
     }
@@ -61,6 +62,7 @@ export default class KeyboardController {
   handleKeyUp = e => {
     var key = this.keys[e.keyCode];
     if (key) {
+      // console.log("点击起");
       this.onButtonUp(key[0], key[1]);
       e.preventDefault();
     }

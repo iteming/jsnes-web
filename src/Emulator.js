@@ -151,7 +151,7 @@ class Emulator extends Component {
     this.frameTimer.start();
     this.speakers.start();
     this.fpsInterval = setInterval(() => {
-      console.log(`FPS: ${this.nes.getFPS()}`);
+      // console.log(`FPS: ${this.nes.getFPS()}`);
     }, 1000);
   };
 
