@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import GoogleAnalytics from "react-ga";
 import { BrowserRouter, Route } from "react-router-dom";
 import ListPage from "./ListPage";
+import Joystick from "./JoyStick";
+import JoyPage from "./JoyStickExample";
 import RunPage from "./RunPage";
 import config from "./config";
 import { handleError } from "./utils";
@@ -22,7 +24,7 @@ class App extends Component {
         <div className="container my-4">
           <div className="row justify-content-center">
             <div className="col-md-8">
-              Oops - there has been an error. It has been logged to the console.
+              糟糕-发生错误.它已记录到控制台.
             </div>
           </div>
         </div>
@@ -32,6 +34,8 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Route exact path="/" component={ListPage} />
+          <Route exact path="/Joystick" component={Joystick} />
+          <Route exact path="/JoyPage" component={JoyPage} />
           <Route exact path="/run" component={RunPage} />
           <Route exact path="/run/:slug" component={RunPage} />
           <Route path="/" render={this.recordPageview} />

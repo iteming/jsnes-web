@@ -24,16 +24,11 @@ class ListPage extends Component {
           <div className="row justify-content-center">
             <div className="col-md-8">
               <header className="mb-4">
-                <h1 className="mb-3">JSNES</h1>
-                <p>
-                  A JavaScript NES emulator.{" "}
-                  <a href="https://github.com/bfirsh/jsnes">
-                    Source on GitHub.
-                  </a>
-                </p>
+                <h1 className="mb-3">JSNES - NES模拟器(小霸王红白机)</h1>
               </header>
 
               <ListGroup className="mb-4">
+
                 {Object.keys(config.ROMS)
                   .sort()
                   .map(key => (
@@ -44,13 +39,18 @@ class ListPage extends Component {
                     >
                       {config.ROMS[key]["name"]}
                       <span className="float-right">&rsaquo;</span>
+
                     </Link>
                   ))}
+
               </ListGroup>
 
               <p>
-                Or, drag and drop a ROM file onto the page to play it. (Google
-                may help you find them.)
+                或者，将ROM文件拖放到页面上进行播放。 （Google可以帮助您找到它们。）
+                <Link key='JoyPage' to={"/JoyPage"} className="list-group-item">
+                  摇杆
+                  <span className="float-right">&rsaquo;</span>
+                </Link>
               </p>
 
               {this.state.romLibrary.length > 0 ? (
