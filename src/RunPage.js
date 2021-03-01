@@ -23,6 +23,13 @@ const containerStyle = {
     width: '50%',
 };
 
+const buttonABDivStyle = {
+    position: 'absolute',
+    height: '100%',
+    width: '50%',
+    right: 0
+};
+
 /*
  * The UI for the emulator. Also responsible for loading ROM from URL or file.
  */
@@ -75,9 +82,9 @@ class RunPage extends Component {
         return (
             <div className="RunPage">
                 <nav className="navbar navbar-expand"
-                    ref={el => {
-                        this.navbar = el;
-                    }}
+                     ref={el => {
+                         this.navbar = el;
+                     }}
                 >
                     <ul className="navbar-nav" style={{width: "200px"}}>
                         <li className="navitem">
@@ -116,10 +123,26 @@ class RunPage extends Component {
                 </nav>
 
                 <div>
-                    <JoyStick options={joyOptions} containerStyle={containerStyle} managerListener={this.managerListener}/>
+                    <JoyStick options={joyOptions} containerStyle={containerStyle}
+                              managerListener={this.managerListener}/>
                 </div>
 
-                {this.state.error ? ( this.state.error ) : (
+                <div style={buttonABDivStyle}>
+                    <Button style={{right: "110px", top: "150px", backgroundColor: 'dodgerblue'}} className="primary" variant="contained">
+                        X
+                    </Button>
+                    <Button style={{right: "50px", top: "150px", backgroundColor: 'yellow'}} className="secondary" variant="contained">
+                        Y
+                    </Button>
+                    <Button style={{right: "110px", top: "210px", backgroundColor: 'lawngreen'}} className="primary" variant="contained">
+                        A
+                    </Button>
+                    <Button style={{right: "50px", top: "210px", backgroundColor: 'red'}} className="secondary" variant="contained">
+                        B
+                    </Button>
+                </div>
+
+                {this.state.error ? (this.state.error) : (
                     <div
                         className="screen-container"
                         ref={el => {
