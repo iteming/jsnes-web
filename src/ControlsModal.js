@@ -49,11 +49,19 @@ class ControlsModal extends Component {
   }
 
   listenForKey(button) {
+    // 鼠标点击事件，开始设置按键
+    console.log("先走 listenForKey ", button);
     var currentPromptButton = button[1];
 
+    // 移除之前的键盘监听事件
     this.removeKeyListener();
+
+    // 当前按键内容 button = [玩家 playId, 按键 buttonId]
     this.setState({ button, currentPromptButton });
+
+    // 提醒Gamepad按键
     this.props.promptButton(this.handleGamepadButtonDown);
+    // 添加监听Keyboard按键事件
     document.addEventListener("keydown", this.handleKeyDown);
   }
 
@@ -99,13 +107,17 @@ class ControlsModal extends Component {
       },
       currentPromptButton: -1,
       controllerIcon: playerGamepadId.map(gamepadId =>
-        gamepadId ? GAMEPAD_ICON : KEYBOARD_ICON
+          gamepadId ? GAMEPAD_ICON : KEYBOARD_ICON
+      ),
+      controllerIconAlt: playerGamepadId.map(gamepadId =>
+          gamepadId ? "gamepad" : "keyboard"
       ),
       modified: true
     });
   }
 
   handleKeyDown(event) {
+    console.log("先走 handleKeyDown ", this.state.button);
     this.removeKeyListener();
 
     var button = this.state.button;
@@ -121,6 +133,8 @@ class ControlsModal extends Component {
     const playerId = button[0];
     playerGamepadId[playerId - 1] = null;
 
+    // ... 代表脱衣服 [1,2,3] ...之后为 1,2,3 ===通常用于数组拼接引入已存在的数组===
+    // slice(start,end) 返回一个新的数组，包含从 start 到 end （不包括该元素）
     this.setState({
       keys: {
         ...newKeys,
@@ -179,80 +193,111 @@ class ControlsModal extends Component {
                     alt={this.state.controllerIconAlt[1]}
                   />
                 </th>
+                <th>Batter</th>
               </tr>
             </thead>
             <tbody>
               <ControlMapperRow
-                buttonName="Left"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_LEFT}
-                prevButton={Controller.BUTTON_SELECT}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="Up"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_UP}
+                  prevButton={Controller.BUTTON_SELECT}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
               <ControlMapperRow
-                buttonName="Right"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_RIGHT}
-                prevButton={Controller.BUTTON_LEFT}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="Down"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_DOWN}
+                  prevButton={Controller.BUTTON_UP}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
               <ControlMapperRow
-                buttonName="Up"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_UP}
-                prevButton={Controller.BUTTON_RIGHT}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="Left"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_LEFT}
+                  prevButton={Controller.BUTTON_DOWN}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
               <ControlMapperRow
-                buttonName="Down"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_DOWN}
-                prevButton={Controller.BUTTON_UP}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="Right"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_RIGHT}
+                  prevButton={Controller.BUTTON_LEFT}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
+              />
+
+              <ControlMapperRow
+                  buttonName="A"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_A}
+                  prevButton={Controller.BUTTON_RIGHT}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
               <ControlMapperRow
-                buttonName="A"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_A}
-                prevButton={Controller.BUTTON_DOWN}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="B"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_B}
+                  prevButton={Controller.BUTTON_A}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
               <ControlMapperRow
-                buttonName="B"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_B}
-                prevButton={Controller.BUTTON_A}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="X"
+                  batterForKey={1}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_A}
+                  prevButton={Controller.BUTTON_B}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
               <ControlMapperRow
-                buttonName="Start"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_START}
-                prevButton={Controller.BUTTON_B}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="Y"
+                  batterForKey={1}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_B}
+                  prevButton={Controller.BUTTON_A}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
+              />
+
+              <ControlMapperRow
+                  buttonName="Start"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_START}
+                  prevButton={Controller.BUTTON_B}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
               <ControlMapperRow
-                buttonName="Select"
-                currentPromptButton={this.state.currentPromptButton}
-                button={Controller.BUTTON_SELECT}
-                prevButton={Controller.BUTTON_START}
-                keys={this.state.keys}
-                handleClick={this.listenForKey}
-                gamepadConfig={this.state.gamepadConfig}
+                  buttonName="Select"
+                  batterForKey={0}
+                  currentPromptButton={this.state.currentPromptButton}
+                  button={Controller.BUTTON_SELECT}
+                  prevButton={Controller.BUTTON_START}
+                  keys={this.state.keys}
+                  handleClick={this.listenForKey}
+                  gamepadConfig={this.state.gamepadConfig}
               />
             </tbody>
           </Table>

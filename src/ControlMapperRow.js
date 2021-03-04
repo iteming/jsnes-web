@@ -18,7 +18,7 @@ class ControlMapperRow extends Component {
     for (var key in keys) {
       if (keys[key][0] === 1 && keys[key][1] === button) {
         playerButtons[0] = keys[key][2];
-        console.log(playerButtons[0]);
+        // console.log("---Mount" + playerButtons[0]);
       } else if (keys[key][0] === 2 && keys[key][1] === button) {
         playerButtons[1] = keys[key][2];
       }
@@ -39,7 +39,7 @@ class ControlMapperRow extends Component {
     for (var key in keys) {
       if (keys[key][0] === 1 && keys[key][1] === button) {
         playerButtons[0] = keys[key][2];
-        console.log(playerButtons[0]);
+        // console.log("---Update"+playerButtons[0]);
       } else if (keys[key][0] === 2 && keys[key][1] === button) {
         playerButtons[1] = keys[key][2];
       }
@@ -167,6 +167,7 @@ class ControlMapperRow extends Component {
             ? waitingText
             : this.state.playerTwoButton}
         </td>
+        <td>{this.props.batterForKey}</td>
       </tr>
     );
   }

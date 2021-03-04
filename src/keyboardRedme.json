@@ -1,0 +1,36 @@
+[
+    {
+        "键盘key": "[玩家controllerId, 按键buttonId, 字符显示]"
+    },
+    {
+        "49":[ 1, 0, "1"],
+        "65":[ 1, 6, "A" ],
+        "66":[ 1, 2, "B" ],
+        "68":[ 1, 7, "D" ],
+        "83":[ 1, 5, "S" ],
+        "86":[ 1, 3, "V" ],
+        "87":[ 1, 4, "W" ],
+        "98":[ 1, 1, "2" ]
+    },
+    {
+        "Gamepad配置buttons": "{code: Gamepad按键编号, type: 按键类型 axis为摇杆, 按键buttonId, value: 摇杆正负值 }"
+    },
+    {
+        "configs": {
+            "buttons": [
+                {
+                    "code": "1",
+                    "type": "button",
+                    "buttonId": 0
+                },
+                {
+                    "code": "1",
+                    "type": "axis",
+                    "buttonId": 0,
+                    "value": -1
+                }
+            ]
+        },
+        "playGamepadId": [1, null]
+    }
+]
