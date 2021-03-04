@@ -46,6 +46,7 @@ class RunPage extends Component {
             loading: true,
             loadedPercent: 3,
             error: null,
+            timeOutId: [],
             joyStickController: null
         };
     }
@@ -55,7 +56,8 @@ class RunPage extends Component {
         manager.on('move', (e, stick) => {
             var joyStick = that.state.joyStickController;
             // console.log('I moved! ', e, stick);
-            // 当摇杆发生便宜产生上下左右参数，且摇杆距离中心点的距离超过15（满值50）
+            // distance 当摇杆发生便宜产生上下左右参数，且摇杆距离中心点的距离超过15（满值50）
+            // degree 摇杆角度来判断是否两键齐发
             if (stick.direction !== undefined && stick.distance > 15) {
                 joyStick.handleJoyStickUp(1, "ALL");
                 if (55 > stick.angle.degree && stick.angle.degree > 35) {
@@ -100,19 +102,42 @@ class RunPage extends Component {
     handleBtnClick = (eventKey) => {
         // e.preventDefault();
         var joyStick = this.state.joyStickController;
-        console.log("handleBtnClick", joyStick);
-        joyStick.handleJoyStickUp(1, eventKey); // 先取消，再执行
-        joyStick.handleJoyStickDown(1, eventKey);
-        var that = this;
-        setTimeout(() => {
-            that.handleBtnBlur(eventKey)
-        }, 10);
+        console.log("handleBtnClick");
+        if (eventKey === "X" || eventKey === "Y") {
+            this.whileDo(joyStick, eventKey, this);
+        } else {
+            joyStick.handleJoyStickDown(1, eventKey);
+        }
     };
+
+    whileDo(joyStick, eventKey, that) {
+        console.log("touchStart 1");
+        joyStick.handleJoyStickUp(1, eventKey); // 先取消，再执行
+        setTimeout(() => {
+            joyStick.handleJoyStickDown(1, eventKey);
+        }, 50);
+
+        let timeOutId = this.state.timeOutId ? this.state.timeOutId : [];
+        timeOutId.push(setTimeout(() => {
+            that.whileDo(joyStick, eventKey, that);
+        }, 100));
+        this.setState({timeOutId: timeOutId});
+    }
 
     handleBtnBlur = (eventKey) => {
         // e.preventDefault();
+        if (eventKey === "X" || eventKey === "Y") {
+            console.log("timeOutId", this.state.timeOutId);
+            let timeOutId = this.state.timeOutId ? this.state.timeOutId : [];
+            while (timeOutId.length > 0) {
+                let timeId = timeOutId.pop();
+                clearTimeout(timeId);
+            }
+            this.setState({timeOutId: []})
+        }
+
         var joyStick = this.state.joyStickController;
-        console.log("handleBtnBlur =====", joyStick);
+        console.log("handleBtnBlur =====");
         joyStick.handleJoyStickUp(1, eventKey);
     };
 
@@ -170,17 +195,15 @@ class RunPage extends Component {
                         <Button className="primary" variant="contained" style={{
                             left: "0", backgroundColor: 'gray-dark', fontSize: '10px', padding: '0px'
                         }}
-                            // onClick={e => {
-                            //     this.handleBtnClick.bind(this, "SELECT");
-                            //     e.preventDefault();
-                            // }}
-                                onClick={this.handleBtnClick.bind(this, "SELECT")}>
+                                onTouchStart={this.handleBtnClick.bind(this, "SELECT")}
+                                onTouchEnd={this.handleBtnBlur.bind(this, "SELECT")}>
                             SELECT
                         </Button>
                         <Button className="primary" variant="contained" style={{
                             left: "60px", backgroundColor: 'gray-dark', fontSize: '10px', padding: '0px'
                         }}
-                                onClick={this.handleBtnClick.bind(this, "START")}>
+                                onTouchStart={this.handleBtnClick.bind(this, "START")}
+                                onTouchEnd={this.handleBtnBlur.bind(this, "START")}>
                             START
                         </Button>
 
@@ -188,28 +211,33 @@ class RunPage extends Component {
                             left: "0", top: "100px",
                             backgroundColor: 'dodgerblue'
                         }}
-                                onClick={this.handleBtnClick.bind(this, "X")}>
+                                onTouchStart={this.handleBtnClick.bind(this, "X")}
+                                onTouchEnd={this.handleBtnBlur.bind(this, "X")}>
                             X
                         </Button>
                         <Button className="primary" variant="contained" style={{
                             left: "60px", top: "100px",
                             backgroundColor: 'yellow'
                         }}
-                                onClick={this.handleBtnClick.bind(this, "Y")}>
+                                onTouchStart={this.handleBtnClick.bind(this, "Y")}
+                                onTouchEnd={this.handleBtnBlur.bind(this, "Y")}>
                             Y
                         </Button>
                         <Button className="primary" variant="contained" style={{
                             left: "0", top: "160px",
                             backgroundColor: 'lawngreen'
                         }}
-                                onClick={this.handleBtnClick.bind(this, "A")}>
+                                onTouchStart={this.handleBtnClick.bind(this, "A")}
+                                onTouchEnd={this.handleBtnBlur.bind(this, "A")}>
                             A
                         </Button>
                         <Button className="primary" variant="contained" style={{
                             left: "60px", top: "160px",
                             backgroundColor: 'red'
                         }}
-                                onClick={this.handleBtnClick.bind(this, "B")}>
+                                onTouchStart={this.handleBtnClick.bind(this, "B")}
+                                onTouchEnd={this.handleBtnBlur.bind(this, "B")}
+                        >
                             B
                         </Button>
                     </div>

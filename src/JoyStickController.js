@@ -5,7 +5,7 @@ const KEYS = {
     1: {
         "A": [Controller.BUTTON_A, "A"],
         "B": [Controller.BUTTON_B, "B"],
-        "X": [Controller.BUTTON_B, "B"],
+        "X": [Controller.BUTTON_A, "A"],
         "Y": [Controller.BUTTON_B, "B"],
         "SELECT": [Controller.BUTTON_SELECT, "SELECT"], // Right Ctrl
         "START": [Controller.BUTTON_START, "START"], // Enter
@@ -45,7 +45,9 @@ export default class JoyStickController {
     handleJoyStickDown = (playerId, eventKey) => {
         var keys = this.keys[playerId];
         if (keys) {
-            // console.log("JoyStick 点击落");
+            // if (eventKey === "X" || eventKey === "Y") {
+            //     console.log("JoyStick 点击落");
+            // }
             this.onButtonDown(playerId, keys[eventKey][0]);
         }
     };
@@ -53,12 +55,16 @@ export default class JoyStickController {
     handleJoyStickUp = (playerId, eventKey) => {
         var keys = this.keys[playerId];
         if (keys) {
-            // console.log("JoyStick 点击起");
             if (eventKey === "ALL") {
+              console.log("run All Up");
                 for (let thisKey in keys) {
-                    this.onButtonUp(playerId, keys[thisKey][0]);
+                    if (!(thisKey === "X" || thisKey === "Y"))
+                        this.onButtonUp(playerId, keys[thisKey][0]);
                 }
             } else {
+                // if (eventKey === "X" || eventKey === "Y") {
+                //     console.log("JoyStick 点击起 =============");
+                // }
                 this.onButtonUp(playerId, keys[eventKey][0]);
             }
         }
