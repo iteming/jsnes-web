@@ -99,8 +99,8 @@ class RunPage extends Component {
         })
     };
 
-    handleBtnClick = (eventKey) => {
-        // e.preventDefault();
+    handleBtnClick = (eventKey, e) => {
+        e.preventDefault();
         var joyStick = this.state.joyStickController;
         console.log("handleBtnClick");
         if (eventKey === "X" || eventKey === "Y") {

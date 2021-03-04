@@ -133,6 +133,9 @@ class Emulator extends Component {
     joyStick.loadKeys();
     this.props.handleJoyStick(joyStick); // 初始化好的JoyStickController通过handle传回给父组件
 
+    document.addEventListener('contextmenu', function(e){
+      e.preventDefault();
+    });
     document.addEventListener("keydown", this.keyboardController.handleKeyDown);
     document.addEventListener("keyup", this.keyboardController.handleKeyUp);
     document.addEventListener(
