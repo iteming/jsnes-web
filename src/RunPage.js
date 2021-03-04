@@ -45,38 +45,76 @@ class RunPage extends Component {
             controlsModalOpen: false,
             loading: true,
             loadedPercent: 3,
-            error: null
+            error: null,
+            joyStickController: null
         };
     }
 
-    managerListener(manager) {
+    managerListener = (manager) => {
+        var that = this;
         manager.on('move', (e, stick) => {
-            console.log('I moved! ', e, stick);
+            var joyStick = that.state.joyStickController;
+            // console.log('I moved! ', e, stick);
             // 当摇杆发生便宜产生上下左右参数，且摇杆距离中心点的距离超过15（满值50）
             if (stick.direction !== undefined && stick.distance > 15) {
+                joyStick.handleJoyStickUp(1, "ALL");
                 if (55 > stick.angle.degree && stick.angle.degree > 35) {
-                    console.log('I moved! up - right');
+                    // console.log('I moved! up - right');
+                    joyStick.handleJoyStickDown(1, "U");
+                    joyStick.handleJoyStickDown(1, "R");
                 } else if (145 > stick.angle.degree && stick.angle.degree > 125) {
-                    console.log('I moved! up - left');
+                    // console.log('I moved! up - left');
+                    joyStick.handleJoyStickDown(1, "U");
+                    joyStick.handleJoyStickDown(1, "L");
                 } else if (235 > stick.angle.degree && stick.angle.degree > 215) {
-                    console.log('I moved! down - left');
+                    // console.log('I moved! down - left');
+                    joyStick.handleJoyStickDown(1, "D");
+                    joyStick.handleJoyStickDown(1, "L");
                 } else if (325 > stick.angle.degree && stick.angle.degree > 305) {
-                    console.log('I moved! down - right');
+                    // console.log('I moved! down - right');
+                    joyStick.handleJoyStickDown(1, "D");
+                    joyStick.handleJoyStickDown(1, "R");
                 } else if (stick.direction.angle === 'up') {
-                    console.log('I moved! ', stick.direction.angle);
+                    // console.log('I moved! ', stick.direction.angle);
+                    joyStick.handleJoyStickDown(1, "U");
                 } else if (stick.direction.angle === 'down') {
-                    console.log('I moved! ', stick.direction.angle);
+                    // console.log('I moved! ', stick.direction.angle);
+                    joyStick.handleJoyStickDown(1, "D");
                 } else if (stick.direction.angle === 'left') {
-                    console.log('I moved! ', stick.direction.angle);
+                    // console.log('I moved! ', stick.direction.angle);
+                    joyStick.handleJoyStickDown(1, "L");
                 } else if (stick.direction.angle === 'right') {
-                    console.log('I moved! ', stick.direction.angle);
+                    // console.log('I moved! ', stick.direction.angle);
+                    joyStick.handleJoyStickDown(1, "R");
                 }
             }
         });
         manager.on('end', () => {
+            var joyStick = that.state.joyStickController;
+            // console.log("managerListener", joyStick);
             // console.log('I ended!')
+            joyStick.handleJoyStickUp(1, "ALL");
         })
-    }
+    };
+
+    handleBtnClick = (eventKey) => {
+        // e.preventDefault();
+        var joyStick = this.state.joyStickController;
+        console.log("handleBtnClick", joyStick);
+        joyStick.handleJoyStickUp(1, eventKey); // 先取消，再执行
+        joyStick.handleJoyStickDown(1, eventKey);
+        var that = this;
+        setTimeout(() => {
+            that.handleBtnBlur(eventKey)
+        }, 10);
+    };
+
+    handleBtnBlur = (eventKey) => {
+        // e.preventDefault();
+        var joyStick = this.state.joyStickController;
+        console.log("handleBtnBlur =====", joyStick);
+        joyStick.handleJoyStickUp(1, eventKey);
+    };
 
     render() {
         return (
@@ -128,18 +166,53 @@ class RunPage extends Component {
                 </div>
 
                 <div style={buttonABDivStyle}>
-                    <Button style={{right: "110px", top: "150px", backgroundColor: 'dodgerblue'}} className="primary" variant="contained">
-                        X
-                    </Button>
-                    <Button style={{right: "50px", top: "150px", backgroundColor: 'yellow'}} className="secondary" variant="contained">
-                        Y
-                    </Button>
-                    <Button style={{right: "110px", top: "210px", backgroundColor: 'lawngreen'}} className="primary" variant="contained">
-                        A
-                    </Button>
-                    <Button style={{right: "50px", top: "210px", backgroundColor: 'red'}} className="secondary" variant="contained">
-                        B
-                    </Button>
+                    <div className="secondary">
+                        <Button className="primary" variant="contained" style={{
+                            left: "0", backgroundColor: 'gray-dark', fontSize: '10px', padding: '0px'
+                        }}
+                            // onClick={e => {
+                            //     this.handleBtnClick.bind(this, "SELECT");
+                            //     e.preventDefault();
+                            // }}
+                                onClick={this.handleBtnClick.bind(this, "SELECT")}>
+                            SELECT
+                        </Button>
+                        <Button className="primary" variant="contained" style={{
+                            left: "60px", backgroundColor: 'gray-dark', fontSize: '10px', padding: '0px'
+                        }}
+                                onClick={this.handleBtnClick.bind(this, "START")}>
+                            START
+                        </Button>
+
+                        <Button className="primary" variant="contained" style={{
+                            left: "0", top: "100px",
+                            backgroundColor: 'dodgerblue'
+                        }}
+                                onClick={this.handleBtnClick.bind(this, "X")}>
+                            X
+                        </Button>
+                        <Button className="primary" variant="contained" style={{
+                            left: "60px", top: "100px",
+                            backgroundColor: 'yellow'
+                        }}
+                                onClick={this.handleBtnClick.bind(this, "Y")}>
+                            Y
+                        </Button>
+                        <Button className="primary" variant="contained" style={{
+                            left: "0", top: "160px",
+                            backgroundColor: 'lawngreen'
+                        }}
+                                onClick={this.handleBtnClick.bind(this, "A")}>
+                            A
+                        </Button>
+                        <Button className="primary" variant="contained" style={{
+                            left: "60px", top: "160px",
+                            backgroundColor: 'red'
+                        }}
+                                onClick={this.handleBtnClick.bind(this, "B")}>
+                            B
+                        </Button>
+                    </div>
                 </div>
 
                 {this.state.error ? (this.state.error) : (
@@ -163,6 +236,8 @@ class RunPage extends Component {
                             <Emulator
                                 romData={this.state.romData}
                                 paused={this.state.paused}
+                                joyStickController={this.state.joyStickController}
+                                handleJoyStick={this.handleJoyStick.bind(this)}
                                 ref={emulator => {
                                     this.emulator = emulator;
                                 }}
@@ -270,6 +345,11 @@ class RunPage extends Component {
 
     toggleControlsModal = () => {
         this.setState({controlsModalOpen: !this.state.controlsModalOpen});
+    };
+
+    handleJoyStick(JoyStickController) {
+        console.log("handleJoyStick", JoyStickController);
+        this.setState({joyStickController: JoyStickController});
     };
 }
 

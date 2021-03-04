@@ -258,33 +258,32 @@ class ControlsModal extends Component {
                   handleClick={this.listenForKey}
                   gamepadConfig={this.state.gamepadConfig}
               />
-              <ControlMapperRow
-                  buttonName="X"
-                  batterForKey={1}
-                  currentPromptButton={this.state.currentPromptButton}
-                  button={Controller.BUTTON_A}
-                  prevButton={Controller.BUTTON_B}
-                  keys={this.state.keys}
-                  handleClick={this.listenForKey}
-                  gamepadConfig={this.state.gamepadConfig}
-              />
-              <ControlMapperRow
-                  buttonName="Y"
-                  batterForKey={1}
-                  currentPromptButton={this.state.currentPromptButton}
-                  button={Controller.BUTTON_B}
-                  prevButton={Controller.BUTTON_A}
-                  keys={this.state.keys}
-                  handleClick={this.listenForKey}
-                  gamepadConfig={this.state.gamepadConfig}
-              />
-
+              {/*<ControlMapperRow*/}
+              {/*    buttonName="X"*/}
+              {/*    batterForKey={1}*/}
+              {/*    currentPromptButton={this.state.currentPromptButton}*/}
+              {/*    button={Controller.BUTTON_X}*/}
+              {/*    prevButton={Controller.BUTTON_B}*/}
+              {/*    keys={this.state.keys}*/}
+              {/*    handleClick={this.listenForKey}*/}
+              {/*    gamepadConfig={this.state.gamepadConfig}*/}
+              {/*/>*/}
+              {/*<ControlMapperRow*/}
+              {/*    buttonName="Y"*/}
+              {/*    batterForKey={1}*/}
+              {/*    currentPromptButton={this.state.currentPromptButton}*/}
+              {/*    button={Controller.BUTTON_Y}*/}
+              {/*    prevButton={Controller.BUTTON_X}*/}
+              {/*    keys={this.state.keys}*/}
+              {/*    handleClick={this.listenForKey}*/}
+              {/*    gamepadConfig={this.state.gamepadConfig}*/}
+              {/*/>*/}
               <ControlMapperRow
                   buttonName="Start"
                   batterForKey={0}
                   currentPromptButton={this.state.currentPromptButton}
                   button={Controller.BUTTON_START}
-                  prevButton={Controller.BUTTON_B}
+                  prevButton={Controller.BUTTON_Y}
                   keys={this.state.keys}
                   handleClick={this.listenForKey}
                   gamepadConfig={this.state.gamepadConfig}

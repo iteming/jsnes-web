@@ -6,6 +6,7 @@ import { NES } from "jsnes";
 import FrameTimer from "./FrameTimer";
 import GamepadController from "./GamepadController";
 import KeyboardController from "./KeyboardController";
+import JoyStickController from "./JoyStickController";
 import Screen from "./Screen";
 import Speakers from "./Speakers";
 
@@ -36,9 +37,20 @@ class Emulator extends Component {
     );
   }
 
+  constructor(props) {
+    console.log("IN Emulator", props);
+    super(props);
+    this.state = {
+      joyStickController: null
+    };
+  }
+
   componentDidMount() {
     // Initial layout
     this.fitInParent();
+    this.setState({
+      joyStickController: this.props.joyStickController
+    });
 
     this.speakers = new Speakers({
       onBufferUnderrun: (actualSize, desiredSize) => {
@@ -106,6 +118,21 @@ class Emulator extends Component {
     // Load keys from localStorage (if they exist)
     this.keyboardController.loadKeys();
 
+    var joyStick = new JoyStickController({
+      onButtonDown: this.gamepadController.disableIfGamepadEnabled(
+          this.nes.buttonDown
+      ),
+      onButtonUp: this.gamepadController.disableIfGamepadEnabled(
+          this.nes.buttonUp
+      )
+    });
+    this.setState({
+      joyStickController: joyStick
+    });
+    // Load keys from localStorage (if they exist)
+    joyStick.loadKeys();
+    this.props.handleJoyStick(joyStick); // 初始化好的JoyStickController通过handle传回给父组件
+
     document.addEventListener("keydown", this.keyboardController.handleKeyDown);
     document.addEventListener("keyup", this.keyboardController.handleKeyUp);
     document.addEventListener(
@@ -121,15 +148,9 @@ class Emulator extends Component {
     this.stop();
 
     // Unbind keyboard
-    document.removeEventListener(
-      "keydown",
-      this.keyboardController.handleKeyDown
-    );
+    document.removeEventListener("keydown", this.keyboardController.handleKeyDown);
     document.removeEventListener("keyup", this.keyboardController.handleKeyUp);
-    document.removeEventListener(
-      "keypress",
-      this.keyboardController.handleKeyPress
-    );
+    document.removeEventListener("keypress", this.keyboardController.handleKeyPress);
 
     // Stop gamepad
     this.gamepadPolling.stop();
