@@ -49,7 +49,9 @@ class ListPage extends Component {
                 或者，将ROM文件拖放到页面上进行播放。 （Google可以帮助您找到它们。）
                 <Link key='JoyPage' to={"/JoyPage"} className="list-group-item">
                   摇杆
-                  <span className="float-right">&rsaquo;</span>
+                </Link>
+                <Link key='VibrationPage' to={"/VibrationPage"} className="list-group-item">
+                  VibrationPage
                 </Link>
               </p>
 

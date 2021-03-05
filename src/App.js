@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import ListPage from "./ListPage";
 import Joystick from "./JoyStick";
 import JoyPage from "./JoyStickExample";
+import VibrationPage from "./VibrationExcemple";
 import RunPage from "./RunPage";
 import config from "./config";
 import { handleError } from "./utils";
@@ -36,6 +37,7 @@ class App extends Component {
           <Route exact path="/" component={ListPage} />
           <Route exact path="/Joystick" component={Joystick} />
           <Route exact path="/JoyPage" component={JoyPage} />
+          <Route exact path="/VibrationPage" component={VibrationPage} />
           <Route exact path="/run" component={RunPage} />
           <Route exact path="/run/:slug" component={RunPage} />
           <Route path="/" render={this.recordPageview} />

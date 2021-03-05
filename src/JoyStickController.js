@@ -45,9 +45,6 @@ export default class JoyStickController {
     handleJoyStickDown = (playerId, eventKey) => {
         var keys = this.keys[playerId];
         if (keys) {
-            // if (eventKey === "X" || eventKey === "Y") {
-            //     console.log("JoyStick 点击落");
-            // }
             this.onButtonDown(playerId, keys[eventKey][0]);
         }
     };
@@ -56,15 +53,15 @@ export default class JoyStickController {
         var keys = this.keys[playerId];
         if (keys) {
             if (eventKey === "ALL") {
-              console.log("run All Up");
+                console.log("run All Up");
                 for (let thisKey in keys) {
-                    if (!(thisKey === "X" || thisKey === "Y"))
+                    if (!(thisKey === "X" || thisKey === "Y" ||
+                        thisKey === "A" || thisKey === "B")){
+                        // 右侧按键不触发 onButtonUp
                         this.onButtonUp(playerId, keys[thisKey][0]);
+                    }
                 }
             } else {
-                // if (eventKey === "X" || eventKey === "Y") {
-                //     console.log("JoyStick 点击起 =============");
-                // }
                 this.onButtonUp(playerId, keys[eventKey][0]);
             }
         }

@@ -10,6 +10,8 @@ import {loadBinary} from "./utils";
 
 import "./RunPage.css";
 import JoyStick from "./JoyStick";
+// import Shake from 'shake.js';
+import { Vibration } from 'react-native';
 
 const joyOptions = {
     mode: 'semi',
@@ -47,7 +49,8 @@ class RunPage extends Component {
             loadedPercent: 3,
             error: null,
             timeOutId: [],
-            joyStickController: null
+            joyStickController: null,
+            myShakeEvent: null
         };
     }
 
@@ -100,7 +103,6 @@ class RunPage extends Component {
     };
 
     handleBtnClick = (eventKey, e) => {
-        e.preventDefault();
         var joyStick = this.state.joyStickController;
         console.log("handleBtnClick");
         if (eventKey === "X" || eventKey === "Y") {
@@ -108,7 +110,24 @@ class RunPage extends Component {
         } else {
             joyStick.handleJoyStickDown(1, eventKey);
         }
+        // navigator.vibrate([500, 300, 400, 300]);
+        // Vibration.vibrate();
     };
+
+    //Vibration接口用于在浏览器中发出命令，使得设备振动。
+    vibration() {
+        navigator.vibrate = navigator.vibrate
+            || navigator.webkitVibrate
+            || navigator.mozVibrate
+            || navigator.msVibrate;
+
+        if (navigator.vibrate) {
+            // 支持
+            console.log("支持设备震动！");
+        } else {
+            alert("不支持设备震动！");
+        }
+    }
 
     whileDo(joyStick, eventKey, that) {
         console.log("touchStart 1");
@@ -125,7 +144,6 @@ class RunPage extends Component {
     }
 
     handleBtnBlur = (eventKey) => {
-        // e.preventDefault();
         if (eventKey === "X" || eventKey === "Y") {
             console.log("timeOutId", this.state.timeOutId);
             let timeOutId = this.state.timeOutId ? this.state.timeOutId : [];
@@ -296,6 +314,16 @@ class RunPage extends Component {
         window.addEventListener("resize", this.layout);
         this.layout();
         this.load();
+
+        // // 检测手机是否支持振动
+        // this.vibration();
+
+        // var myShakeEvent = new Shake({
+        //     threshold: 15, // optional shake strength threshold
+        //     timeout: 1000 // optional, determines the frequency of event generation
+        // });
+        // myShakeEvent.start();
+        // this.setState({myShakeEvent: myShakeEvent})
     }
 
     componentWillUnmount() {
@@ -303,6 +331,8 @@ class RunPage extends Component {
         if (this.currentRequest) {
             this.currentRequest.abort();
         }
+        // var myShakeEvent = this.state.myShakeEvent;
+        // myShakeEvent.stop();
     }
 
     load = () => {
