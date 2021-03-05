@@ -11,7 +11,7 @@ import {loadBinary} from "./utils";
 import "./RunPage.css";
 import JoyStick from "./JoyStick";
 // import Shake from 'shake.js';
-import { Vibration } from 'react-native';
+// import { Vibration } from 'react-native';
 
 const joyOptions = {
     mode: 'semi',

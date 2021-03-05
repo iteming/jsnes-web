@@ -20,7 +20,8 @@
     "react-scripts": "3.4.1",
     "reactstrap": "^7.1.0",
     "ringbufferjs": "^1.1.0",
-    "shake.js": "^1.2.2"
+    "shake.js": "^1.2.2",
+    "eruda": "^2.4.1"
   },
   "devDependencies": {
     "canvas": "^2.6.1",
