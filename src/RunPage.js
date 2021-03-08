@@ -52,6 +52,16 @@ class RunPage extends Component {
             joyStickController: null,
             myShakeEvent: null
         };
+        // let element = document.documentElement;  //获取界面root元素
+        // if (element.requestFullscreen) {
+        //     element.requestFullscreen();
+        // } else if (element.mozRequestFullScreen) {   // 兼容火狐
+        //     element.mozRequestFullScreen();
+        // } else if (element.webkitRequestFullscreen) {    // 兼容谷歌
+        //     element.webkitRequestFullscreen();
+        // } else if (element.msRequestFullscreen) {   // 兼容IE
+        //     element.msRequestFullscreen();
+        // }
     }
 
     managerListener = (manager) => {
